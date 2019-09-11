@@ -1,45 +1,33 @@
-var config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 200 }
-        }
-    },
-    scene: {
-        preload: preload,
-        create: create,
-        upload: upload
-    }
-};
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'automatic_car', { preload: preload, create: create, update: update});
 
-var game = new Phaser.Game(config);
+var auto_car;
+
 
 // Reloading all resources of the game
 function preload () {
-
-    this.load.image('random_car', './assets/images/random_car.jpg')
-    this.load.image('auto_car', './assets/images/auto_car.jpg')
-
+    game.load.image('random_car', './assets/images/random_car.jpg')
+    game.load.image('auto_car', './assets/images/auto_car.jpg')
 }
 
 // Creating some objects in the map
 function create () {
-    var random_car = this.physics.add.image(100, 200, 'random_car').setScale(0.1);
-    random_car.setVelocity(100, 200);
-    random_car.setBounce(1, 1);
-    random_car.setCollideWorldBounds(true);
+    game.stage.backgroundColor = '#f3cca3';
 
-    var auto_car = this.physics.add.image(200, 100, 'auto_car').setScale(0.1);
-    auto_car.setVelocity(100, 200);
-    auto_car.setBounce(1, 1);
-    auto_car.setCollideWorldBounds(true);
+    var random_car = game.add.sprite(100, 200, 'random_car');
+    random_car.scale.set(0.15);
+    random_car.inputEnabled = true;
+    random_car.input.enableDrag(true);
+
+    auto_car = game.add.sprite(200, 200, 'auto_car');
+    auto_car.anchor.set(0.5);
+    auto_car.scale.set(0.15);
+    auto_car.inputEnabled = true;
+    auto_car.input.enableDrag(true);
+    auto_car.pivot.x = 1000;
 }
 
 // Updating object and map when we have anyhing changed
-function upload() {
+function update() {
  // waitting ...
+    auto_car.angle += 1;
 }
-
