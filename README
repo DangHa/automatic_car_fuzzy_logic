@@ -1,12 +1,12 @@
 * Lộ trình
 
-    +, Tự sinh ra các con đường từ ma trận (Tuần 2, tháng 9)
+    +, Tự tạo một map với vật thể road Lưu vị trí các điểm ngã 3 và ngã 4 vào ma trận(Tuần 2, tháng 9)
     +, Từ kết quả của Dijkstra --> vẽ con đường mà xe sẽ đi   --> Biến con đường thành màu đỏ từ màu trắng (Tuần 2, tháng 9)
     +, Tạo được các xe ngẫu nhiên chạy thẳng trên các con đường (Tuần 3, tháng 9)
+    +, Tạo đèn giao thông. Có đèn thì xuất hiện vật cản đường
     +, Kiểm được khoảng cách với mép con đường và với các vật thể  (Tuần 4, tháng 9)
     +, Xử dụng fuzzy set để kiều khiển vật thể từ các khoảng cách trên (Tuần 1, tháng 10)
     +, VIết slide (Tháng 11 - trước bảo vệ)
 
 * How to run
-
     npm run start
