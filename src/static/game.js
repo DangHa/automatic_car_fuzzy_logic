@@ -69,17 +69,25 @@ var adj_matrix = [
 
 // Crossroads
 var cross_road = {
-    d: {a: [[700, 150, 0, 'road'], [700, 150, 0, 'road']], b: [[700, 150, 0, 'road']], e: [[700, 150, 0, 'road'], [700, 150, 0, 'road']], i: [[700, 150, 0, 'road']]},
-    e: {c: [[700, 150, 0, 'road']], d: [[700, 150, 0, 'road'], [700, 150, 0, 'road']], f: [[700, 150, 0, 'road'],  [700, 150, 0, 'road']], j: [[700, 150, 0, 'road']]},
-    f: {e: [[700, 150, 0, 'road'], [700, 150, 0, 'road']], g: [[700, 150, 0, 'road'], [700, 150, 0, 'road']], o: [[700, 150, 0, 'road']]},
-    i: {d: [[700, 150, 0, 'road']], h: [[700, 150, 0, 'road']], j: [[700, 150, 0, 'road']], k: [[700, 150, 0, 'road']]},
-    j: {e: [[700, 150, 0, 'road']], i: [[700, 150, 0, 'road']], k: [[700, 150, 0, 'road']]},
-    k: {i: [[700, 150, 0, 'road']], j: [[700, 150, 0, 'road']], n: [[700, 150, 0, 'road']]},
-    n: {k: [[700, 150, 0, 'road']], l: [[700, 150, 0, 'road']], m: [[700, 150, 0, 'road']], o: [[700, 150, 0, 'road']]},
-    o: {f: [[700, 150, 0, 'road']], n: [[700, 150, 0, 'road']], p: [[700, 150, 0, 'road']]},
+    d: {a: [[375, 475, 90, 'road'], [425, 475, 90, 'road']], b: [[350, 450, 0, 'road']], e: [[375, 425, 90, 'road'], [425, 425, 90, 'road']], i: [[450, 450, 0, 'road']]},
+    e: {c: [[350, 350, 0, 'road']], d: [[375, 375, 90, 'road'], [425, 375, 90, 'road']], f: [[375, 325, 90, 'road'], [425, 325, 90, 'road']], j: [[450, 350, 0, 'road']]},
+    f: {e: [[375, 275, 90, 'road'], [425, 275, 90, 'road']], g: [[375, 225, 90, 'road'], [425, 225, 90, 'road']], o: [[450, 250, 0, 'road']]},
+    i: {d: [[500, 450, 0, 'road']], h: [[525, 475, 90, 'road']], j: [[525, 425, 90, 'road']], k: [[550, 450, 0, 'road']]},
+    j: {e: [[500, 350, 0, 'road']], i: [[525, 375, 90, 'road']], k: [[550, 350, 0, 'road']]},
+    k: {i: [[625, 412.5, -63.435, 'diagonal_road']], j: [[625, 387.5, 63.435, 'diagonal_road']], n: [[650, 400, 0, 'road']]},
+    n: {k: [[700, 400, 0, 'road']], l: [[725, 375, 90, 'road']], m: [[750, 400, 0, 'road']], o: [[725, 425, 90, 'road']]},
+    o: {f: [[700, 250, 0, 'road']], n: [[725, 275, 90, 'road']], p: [[725, 225, 90, 'road']]},
 };
 
 function find_way() {
-    console.log(cross_road['d']['a'])
-    
+    console.log(cross_road["d"]["b"])
+    var barries = cross_road["o"]["p"]
+    for (var i = 0; i < barries.length; i++){
+        var road = game.add.sprite(barries[i][0], barries[i][1], barries[i][3]);
+        road.anchor.set(0.5);
+        road.angle += barries[i][2]
+        road.scale.set(0.5);
+        road.inputEnabled = true;
+        road.input.enableDrag(true);
+    }
 }
