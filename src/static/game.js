@@ -30,8 +30,8 @@ function create () {
     traffic_light.input.enableDrag(true);
 
     // Goal
-    creating_goal()
-
+    creating_goal();
+    find_way();
 
     auto_car = game.add.sprite(200, 200, 'auto_car');
     auto_car.anchor.set(0.5);
@@ -66,3 +66,20 @@ var adj_matrix = [
     [0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 3, 0, 2],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
 ]
+
+// Crossroads
+var cross_road = {
+    d: {a: [[700, 150, 0, 'road'], [700, 150, 0, 'road']], b: [[700, 150, 0, 'road']], e: [[700, 150, 0, 'road'], [700, 150, 0, 'road']], i: [[700, 150, 0, 'road']]},
+    e: {c: [[700, 150, 0, 'road']], d: [[700, 150, 0, 'road'], [700, 150, 0, 'road']], f: [[700, 150, 0, 'road'],  [700, 150, 0, 'road']], j: [[700, 150, 0, 'road']]},
+    f: {e: [[700, 150, 0, 'road'], [700, 150, 0, 'road']], g: [[700, 150, 0, 'road'], [700, 150, 0, 'road']], o: [[700, 150, 0, 'road']]},
+    i: {d: [[700, 150, 0, 'road']], h: [[700, 150, 0, 'road']], j: [[700, 150, 0, 'road']], k: [[700, 150, 0, 'road']]},
+    j: {e: [[700, 150, 0, 'road']], i: [[700, 150, 0, 'road']], k: [[700, 150, 0, 'road']]},
+    k: {i: [[700, 150, 0, 'road']], j: [[700, 150, 0, 'road']], n: [[700, 150, 0, 'road']]},
+    n: {k: [[700, 150, 0, 'road']], l: [[700, 150, 0, 'road']], m: [[700, 150, 0, 'road']], o: [[700, 150, 0, 'road']]},
+    o: {f: [[700, 150, 0, 'road']], n: [[700, 150, 0, 'road']], p: [[700, 150, 0, 'road']]},
+};
+
+function find_way() {
+    console.log(cross_road['d']['a'])
+    
+}
