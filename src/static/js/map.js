@@ -1,7 +1,7 @@
  // Creating obstacles
- function creating_obstacles() {
+ function creating_obstacles(x, y) {
     for(var i = 0; i < 8; i++){
-        var random_car = game.add.sprite(75, 75, 'random_car');
+        var random_car = game.add.sprite(x, y, 'random_car');
         random_car.angle += i*90;
         random_car.scale.set(0.15);
         random_car.inputEnabled = true;
@@ -10,8 +10,8 @@
 }
 
 // Goal
-function creating_goal() {
-    goal = game.add.sprite(150, 75, 'goal');
+function creating_goal(x , y) {
+    goal = game.add.sprite(x, y, 'goal');
     goal.anchor.set(0.5);
     goal.scale.set(0.3);
     goal.inputEnabled = true;

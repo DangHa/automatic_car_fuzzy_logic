@@ -20,10 +20,10 @@ function create () {
     divide_up_screen()
 
     // Obstacles
-    creating_obstacles();
+    creating_obstacles(100, 75);
 
     // Goal
-    creating_goal();
+    creating_goal(100, 150);
 
     // Start button
     var button = game.add.button(25, 450, 'button', startOnClick, this);
@@ -32,17 +32,14 @@ function create () {
     // Roads
     building_road();
 
-    var fence = game.add.sprite(75, 200, 'fence');
-    fence.angle += 90;
+    var fence = game.add.sprite(100, 200, 'fence');
     fence.scale.set(0.5);
     fence.inputEnabled = true;
     fence.input.enableDrag(true);
 
     
 
-    // make_way();
-
-    auto_car = game.add.sprite(100, 200, 'auto_car');
+    auto_car = game.add.sprite(400, 250, 'auto_car');
     auto_car.anchor.set(0.5);
     auto_car.scale.set(0.15);
     auto_car.inputEnabled = true;
@@ -57,9 +54,7 @@ function update() {
 }
 
 function startOnClick () {
-
-    background.visible =! background.visible;
-
+    find_way(1, 16);
 }
 
 function divide_up_screen() {

@@ -18,6 +18,63 @@ var adj_matrix = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
 ]
 
+// Test for dijistra algorithm (remove the number "1" in name)
+var adj_matrix1 = [
+    [0, 3, 2, 0, 0],
+    [3, 0, 5, 3, 0],
+    [2, 5, 0, 0, 20],
+    [0, 3, 0, 0, 4],
+    [0, 0, 20, 4, 0],
+]
+
+// ---- The algorithm is used to find way -----
+function dijkstra_algorithm(start) {
+    var passed_point = [start]
+    var close_point = Array(adj_matrix.length).fill(start); 
+
+    var shortest_way = adj_matrix[start-1];
+    for (var i = 0; i < shortest_way.length-1; i++) {
+
+        // Find the point which close to the recent point
+        var min = 1000;
+        var min_point = 0;
+        for (var j = 0; j < shortest_way.length; j++) {
+            if (shortest_way[j] !== 0 && shortest_way[j] < min && !passed_point.includes(j+1)) {
+                min_point = j;
+                min = shortest_way[j];
+            }
+        }
+        passed_point.push(min_point+1);
+        
+        // Add the distances of this point that be just finded
+        var choices_point = adj_matrix[min_point];
+        for (var k = 0; k < choices_point.length; k++) {
+
+            if (!passed_point.includes(k+1)) {
+                if (choices_point[k] !== 0) {
+
+                    var new_distance = choices_point[k] +  shortest_way[min_point];
+                    if (new_distance < shortest_way[k]){
+                        shortest_way[k] = new_distance;
+                        close_point[k] = min_point + 1
+
+                    }
+                    if (shortest_way[k] === 0) {
+                        shortest_way[k] = new_distance;
+                        close_point[k] = min_point + 1
+                    }
+                }
+            }
+        }
+        start = k + 1;
+    }
+
+    console.log("Shortest distance: " + shortest_way)
+    console.log("Closest point: " + close_point)
+    return close_point
+}
+
+// --------------------------------
 // Crossroads
 var cross_road = {
     d: {a: [[375, 425, 90, 'road'], [425, 425, 90, 'road']], b: [[350, 400, 0, 'road']], e: [[375, 375, 90, 'road'], [425, 375, 90, 'road']], i: [[450, 400, 0, 'road']]},
@@ -26,23 +83,60 @@ var cross_road = {
     i: {d: [[500, 400, 0, 'road']], h: [[525, 425, 90, 'road']], j: [[525, 375, 90, 'road']], k: [[550, 400, 0, 'road']]},
     j: {e: [[500, 300, 0, 'road']], i: [[525, 325, 90, 'road']], k: [[550, 300, 0, 'road']]},
     k: {i: [[625, 362.5, -63.435, 'diagonal_road']], j: [[625, 337.5, 63.435, 'diagonal_road']], n: [[650, 350, 0, 'road']]},
-    n: {k: [[700, 350, 0, 'road']], l: [[725, 325, 90, 'road']], m: [[750, 350, 0, 'road']], o: [[725, 375, 90, 'road']]},
+    n: {k: [[700, 350, 0, 'road']], l: [[725, 375, 90, 'road']], m: [[750, 350, 0, 'road']], o: [[725, 325, 90, 'road']]},
     o: {f: [[700, 200, 0, 'road']], n: [[725, 225, 90, 'road']], p: [[725, 175, 90, 'road']]},
 };
 
-// ---- The algorithm is used to find way -----
-function dijkstra_algorithm() {
+// find points which will be passed to get finishing point
+function find_way(start, finish) {
+    var close_point = dijkstra_algorithm(start)
 
+    for (var i = 0; i < close_point.length; i++) {
+        var cross_point = close_point[finish-1];
+        
+        if (cross_point === start) {
+            break;
+        }
+
+        var passed_point = close_point[cross_point-1];
+
+        cross_way = cross_road[letter_point(cross_point)];
+
+        accepted_ways = [letter_point(finish), letter_point(passed_point)];
+        disaccepted_ways = minus_two_array(Object.keys(cross_way), accepted_ways)
+
+        for (var j = 0; j < disaccepted_ways.length; j++) {
+            make_barrier(cross_way[disaccepted_ways[j]])
+        }
+
+        finish = cross_point
+    }
 }
 
-function make_way() {
-    var barries = cross_road["d"]["a"]
-    for (var i = 0; i < barries.length; i++){
-        var road = game.add.sprite(barries[i][0], barries[i][1], barries[i][3]);
+// erect barriers to block some road
+function make_barrier(barriers) {
+    // var barriers = cross_road["n"]["o"]
+    for (var i = 0; i < barriers.length; i++){
+        var road = game.add.sprite(barriers[i][0], barriers[i][1], barriers[i][3]);
         road.anchor.set(0.5);
-        road.angle += barries[i][2]
+        road.angle += barriers[i][2]
         road.scale.set(0.5);
         road.inputEnabled = true;
         road.input.enableDrag(true);
     }
+}
+
+function letter_point(n) {
+    return String.fromCharCode(96 + n)
+}
+
+function minus_two_array(m, n){
+    var result = [];
+
+    for (var j = 0; j < m.length; j++) {
+        if (!n.includes(m[j])) {
+            result.push(m[j])
+        }
+    }
+    return result
 }
