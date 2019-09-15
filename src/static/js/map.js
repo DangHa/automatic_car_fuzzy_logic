@@ -1,11 +1,13 @@
  // Creating obstacles
  function creating_obstacles(x, y) {
+    obstacle_group = game.add.physicsGroup();
     for(var i = 0; i < 8; i++){
         var random_car = game.add.sprite(x, y, 'random_car');
         random_car.angle += i*90;
         random_car.scale.set(0.15);
         random_car.inputEnabled = true;
         random_car.input.enableDrag(true);
+        obstacle_group.add(random_car)
     }
 }
 
@@ -98,14 +100,15 @@ function building_road() {
         [750, 100, 0, 'road'],
     ]
     
-
+    road_group = game.add.physicsGroup();
+    
     for (var i = 0; i < road_map.length; i++){
         var road = game.add.sprite(road_map[i][0], road_map[i][1], road_map[i][3]);
         road.anchor.set(0.5);
         road.angle += road_map[i][2]
         road.scale.set(0.5);
-        road.inputEnabled = true;
-        road.input.enableDrag(true);
+
+        road_group.add(road);
     }
     
 }
