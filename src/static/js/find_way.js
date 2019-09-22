@@ -117,12 +117,7 @@ function find_way(start, finish) {
 function make_barrier(barriers) {
     // var barriers = cross_road["n"]["o"]
     for (var i = 0; i < barriers.length; i++){
-        var road = game.add.sprite(barriers[i][0], barriers[i][1], barriers[i][3]);
-        road.anchor.set(0.5);
-        road.angle += barriers[i][2]
-        road.scale.set(0.5);
-        road.inputEnabled = true;
-        road.input.enableDrag(true);
+        create_a_fence(barriers[i])
     }
 }
 

@@ -1,26 +1,45 @@
+ 
+// Automatic car
+function creating_autocar(x, y) {
+    auto_car = game.add.sprite(x, y, 'auto_car');
+    auto_car.anchor.set(0.5);
+    auto_car.scale.set(0.12);
+
+    game.physics.p2.enable(auto_car, true);
+    auto_car.body.setCollisionGroup(carCollisionGroup);
+    auto_car.body.collides(obstacleCollisionGroup, car_obstacle_collisionHandler, this);
+    auto_car.body.collides(goalCollisionGroup, get_to_goal_collisionHandler, this)
+}
+ 
  // Creating obstacles
  function creating_obstacles(x, y) {
-    obstacle_group = game.add.physicsGroup();
     for(var i = 0; i < 8; i++){
-        var random_car = game.add.sprite(x, y, 'random_car');
-        random_car.angle += i*90;
-        random_car.scale.set(0.15);
-        random_car.inputEnabled = true;
-        random_car.input.enableDrag(true);
+        var random_car = game.add.sprite(x+(x*i/1.1), y, 'random_car');
+        random_car.scale.set(0.12);
+        random_car.anchor.set(0.5);
+    
+        game.physics.p2.enable(random_car, true);
+        random_car.body.angle += i*90;
+        
+        random_car.body.setCollisionGroup(obstacleCollisionGroup);
+        random_car.body.collides(carCollisionGroup);
+
         obstacle_group.add(random_car)
     }
 }
 
 // Goal
-function creating_goal(x , y) {
+function creating_goal(x, y) {
     goal = game.add.sprite(x, y, 'goal');
     goal.anchor.set(0.5);
     goal.scale.set(0.3);
-    goal.inputEnabled = true;
-    goal.input.enableDrag(true);
+
+    game.physics.p2.enable(goal, false);
+    goal.body.setCollisionGroup(goalCollisionGroup);
+    goal.body.collides(carCollisionGroup);
 }
 
-// Building road
+// Building road (x, y, angle, 'image')
 function building_road() {
     var road_map = [
         [275, 425, 90, 'road'],
@@ -100,15 +119,25 @@ function building_road() {
         [750, 100, 0, 'road'],
     ]
     
-    road_group = game.add.physicsGroup();
+    obstacle_group = game.add.group();
     
     for (var i = 0; i < road_map.length; i++){
-        var road = game.add.sprite(road_map[i][0], road_map[i][1], road_map[i][3]);
-        road.anchor.set(0.5);
-        road.angle += road_map[i][2]
-        road.scale.set(0.5);
-
-        road_group.add(road);
+        create_a_fence(road_map[i])
     }
     
 }
+
+function create_a_fence(road_map){
+    var fence = game.add.sprite(road_map[0], road_map[1], road_map[3]);
+    fence.anchor.set(0.5);
+    fence.scale.set(0.5);
+
+    game.physics.p2.enable(fence, true);
+    fence.body.angle += road_map[2];
+    fence.body.static = true
+    
+    fence.body.setCollisionGroup(obstacleCollisionGroup);
+    fence.body.collides(carCollisionGroup);
+    
+    obstacle_group.add(fence);
+} 
