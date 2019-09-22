@@ -11,9 +11,13 @@ var obstacleCollisionGroup;
 var carCollisionGroup;
 var goalCollisionGroup;
 
+// Dragging
+var mouseBody;
+var mouseConstraint;
+
 // Reloading all resources of the game
 function preload () {
-    game.load.image('random_car', '../assets/images/random_car.jpg');
+    game.load.image('obstacle', '../assets/images/obstacle.jpg');
     game.load.image('auto_car', '../assets/images/auto_car.jpg');
     game.load.image('diagonal_road', '../assets/images/diagonal_road.jpg');
     game.load.image('road', '../assets/images/road.jpg');
@@ -27,7 +31,7 @@ function preload () {
 function create () {
     game.physics.startSystem(Phaser.Physics.P2JS);
     game.physics.p2.setImpactEvents(true);
-    game.physics.p2.restitution = 0.8;
+    game.physics.p2.restitution = 0;
     
     // Collision
     carCollisionGroup = game.physics.p2.createCollisionGroup();
@@ -35,6 +39,14 @@ function create () {
     goalCollisionGroup = game.physics.p2.createCollisionGroup();
 
     set_up_screen()
+
+    mouseBody = new p2.Body();
+    game.physics.p2.world.addBody(mouseBody);
+
+    // attach pointer events
+    game.input.onDown.add(click, this);
+    game.input.onUp.add(release, this);
+    game.input.addMoveCallback(move, this);
 
     cursors = game.input.keyboard.createCursorKeys();
 }
@@ -51,19 +63,20 @@ function update() {
     auto_car.body.velocity.y = 0;
     auto_car.body.angularVelocity =0;
 
-    if (cursors.left.isDown)
-    {
-        auto_car.body.angularVelocity = -1;
+    if (cursors.left.isDown){
+        auto_car.body.angularVelocity = -angularVelocity;
     }
-    else if (cursors.right.isDown)
-    {
-        auto_car.body.angularVelocity = 1;
+    else if (cursors.right.isDown){
+        auto_car.body.angularVelocity = angularVelocity;
     }
 
-    if (cursors.up.isDown)
-    {
+    if (cursors.up.isDown){
         auto_car.body.velocity.x = velocity*Math.sin(auto_car.body.angle*Math.PI/180);
         auto_car.body.velocity.y = -velocity*Math.cos(auto_car.body.angle*Math.PI/180);
+    }
+    else if (cursors.down.isDown){
+        auto_car.body.velocity.x = -velocity*Math.sin(auto_car.body.angle*Math.PI/180);
+        auto_car.body.velocity.y = velocity*Math.cos(auto_car.body.angle*Math.PI/180);
     }
     
     //automatic driving
@@ -77,14 +90,12 @@ function startOnClick () {
 }
 
 // Collision function
-
 function get_to_goal_collisionHandler (body1, body2) {
     console.log("Finished !!")
     goal.kill();
 
     game_over(goal);
 }
-
 function car_obstacle_collisionHandler (body1, body2) {
     console.log("Boommmm !!")
     auto_car.kill();

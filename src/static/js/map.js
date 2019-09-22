@@ -1,4 +1,3 @@
- 
 // Automatic car
 function creating_autocar(x, y) {
     auto_car = game.add.sprite(x, y, 'auto_car');
@@ -10,33 +9,19 @@ function creating_autocar(x, y) {
     auto_car.body.collides(obstacleCollisionGroup, car_obstacle_collisionHandler, this);
     auto_car.body.collides(goalCollisionGroup, get_to_goal_collisionHandler, this)
 }
- 
- // Creating obstacles
- function creating_obstacles(x, y) {
-    for(var i = 0; i < 8; i++){
-        var random_car = game.add.sprite(x+(x*i/1.1), y, 'random_car');
-        random_car.scale.set(0.12);
-        random_car.anchor.set(0.5);
-    
-        game.physics.p2.enable(random_car, true);
-        random_car.body.angle += i*90;
-        
-        random_car.body.setCollisionGroup(obstacleCollisionGroup);
-        random_car.body.collides(carCollisionGroup);
-
-        obstacle_group.add(random_car)
-    }
-}
 
 // Goal
 function creating_goal(x, y) {
     goal = game.add.sprite(x, y, 'goal');
     goal.anchor.set(0.5);
     goal.scale.set(0.3);
-
+    
     game.physics.p2.enable(goal, false);
     goal.body.setCollisionGroup(goalCollisionGroup);
     goal.body.collides(carCollisionGroup);
+
+    goal.body.setZeroDamping();
+    goal.body.fixedRotation = true;
 }
 
 // Building road (x, y, angle, 'image')
@@ -137,7 +122,48 @@ function create_a_fence(road_map){
     fence.body.static = true
     
     fence.body.setCollisionGroup(obstacleCollisionGroup);
-    fence.body.collides(carCollisionGroup);
+    fence.body.collides([carCollisionGroup, obstacleCollisionGroup]);
     
     obstacle_group.add(fence);
 } 
+
+// ----------------- Creating obstacles  -------------
+var obstacle1;
+var obstacle2;
+var obstacle3;
+var obstacle4;
+function creating_obstacles(x, y) {
+   obstacle1 = game.add.sprite(25, 50, 'obstacle');
+   obstacle1.scale.set(0.25);
+
+   obstacle2 = game.add.sprite(75, 50, 'obstacle');
+   obstacle2.scale.set(0.25);
+
+   obstacle3 = game.add.sprite(125, 50, 'obstacle');
+   obstacle3.scale.set(0.25);
+   
+   obstacle4 = game.add.sprite(175, 50, 'obstacle');
+   obstacle4.scale.set(0.25);
+   
+   game.physics.p2.enable([obstacle1, obstacle2, obstacle3, obstacle4], false);
+   
+   obstacle1.body.setCollisionGroup(obstacleCollisionGroup);
+   obstacle1.body.collides([carCollisionGroup]);
+   obstacle1.body.setZeroDamping();
+   obstacle1.body.fixedRotation = true;
+
+   obstacle2.body.setCollisionGroup(obstacleCollisionGroup);
+   obstacle2.body.collides([carCollisionGroup]);
+   obstacle2.body.setZeroDamping();
+   obstacle2.body.fixedRotation = true;
+
+   obstacle3.body.setCollisionGroup(obstacleCollisionGroup);
+   obstacle3.body.collides([carCollisionGroup]);
+   obstacle3.body.setZeroDamping();
+   obstacle3.body.fixedRotation = true;
+
+   obstacle4.body.setCollisionGroup(obstacleCollisionGroup);
+   obstacle4.body.collides([carCollisionGroup]);
+   obstacle4.body.setZeroDamping();
+   obstacle4.body.fixedRotation = true;
+}
