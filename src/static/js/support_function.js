@@ -1,4 +1,7 @@
-// Dragging functions
+// Dragging functions ---------------
+var mouseBody;
+var mouseConstraint;
+
 function click(pointer) {
     var bodies = game.physics.p2.hitTest(pointer.position, [auto_car.body, goal.body, obstacle1.body, obstacle2.body, obstacle3.body, obstacle4.body]);
     
@@ -27,3 +30,5 @@ function move(pointer) {
     mouseBody.position[0] = game.physics.p2.pxmi(pointer.position.x);
     mouseBody.position[1] = game.physics.p2.pxmi(pointer.position.y);
 }
+
+// ------------------------------------

@@ -11,10 +11,6 @@ var obstacleCollisionGroup;
 var carCollisionGroup;
 var goalCollisionGroup;
 
-// Dragging
-var mouseBody;
-var mouseConstraint;
-
 // Reloading all resources of the game
 function preload () {
     game.load.image('obstacle', '../assets/images/obstacle.jpg');

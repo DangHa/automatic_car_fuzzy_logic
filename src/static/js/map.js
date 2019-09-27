@@ -132,6 +132,7 @@ var obstacle1;
 var obstacle2;
 var obstacle3;
 var obstacle4;
+
 function creating_obstacles(x, y) {
    obstacle1 = game.add.sprite(25, 50, 'obstacle');
    obstacle1.scale.set(0.25);

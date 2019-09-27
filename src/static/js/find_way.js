@@ -74,6 +74,44 @@ function dijkstra_algorithm(start) {
     return close_point
 }
 
+// -------------------------------
+// get the start and finish point 
+var crossroad_coordinate = [
+    [400, 500], //a
+    [300, 400], //b
+    [300, 300], //c
+    [400, 400], //d
+    [400, 300], //e
+    [400, 200], //f
+    [400, 100], //g
+    [500, 500], //h
+    [500, 400], //i
+    [500, 300], //j
+    [600, 350], //k
+    [700, 500], //l
+    [800, 350], //m
+    [700, 350], //n
+    [700, 200], //o
+    [700, 100], //p
+]
+
+function get_point(object) {
+    var result;
+    var min = 1000000;
+
+    console.log(object.x)
+    for (var i = 0; i < crossroad_coordinate.length; i++) {
+        var distance = euclid_distance(crossroad_coordinate[i], [object.x, object.y])
+        console.log(distance)
+        if (distance < min) {
+            result = i
+            min = distance
+        }
+    }
+
+    return result + 1;
+}
+
 // --------------------------------
 // Crossroads
 var cross_road = {
@@ -87,8 +125,18 @@ var cross_road = {
     o: {f: [[700, 200, 0, 'road']], n: [[725, 225, 90, 'road']], p: [[725, 175, 90, 'road']]},
 };
 
+//find way
+function find_way() {
+    car_location = get_point(auto_car);
+    goal_location = get_point(goal);
+
+    console.log("car: " + car_location);
+    console.log("goal: " + goal_location);
+    make_way(car_location, goal_location);
+}
+
 // find points which will be passed to get finishing point
-function find_way(start, finish) {
+function make_way(start, finish) {
     var close_point = dijkstra_algorithm(start)
 
     for (var i = 0; i < close_point.length; i++) {
@@ -134,4 +182,11 @@ function minus_two_array(m, n){
         }
     }
     return result
+}
+
+function euclid_distance(point1, point2) {
+    var a = point1[0] - point2[0];
+    var b = point1[1] - point2[1];
+
+    return Math.sqrt( a*a + b*b );
 }
