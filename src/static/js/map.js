@@ -1,29 +1,3 @@
-// Automatic car
-function creating_autocar(x, y) {
-    auto_car = game.add.sprite(x, y, 'auto_car');
-    auto_car.anchor.set(0.5);
-    auto_car.scale.set(0.12);
-
-    game.physics.p2.enable(auto_car, true);
-    auto_car.body.setCollisionGroup(carCollisionGroup);
-    auto_car.body.collides(obstacleCollisionGroup, car_obstacle_collisionHandler, this);
-    auto_car.body.collides(goalCollisionGroup, get_to_goal_collisionHandler, this)
-}
-
-// Goal
-function creating_goal(x, y) {
-    goal = game.add.sprite(x, y, 'goal');
-    goal.anchor.set(0.5);
-    goal.scale.set(0.3);
-    
-    game.physics.p2.enable(goal, false);
-    goal.body.setCollisionGroup(goalCollisionGroup);
-    goal.body.collides(carCollisionGroup);
-
-    goal.body.setZeroDamping();
-    goal.body.fixedRotation = true;
-}
-
 // Building road (x, y, angle, 'image')
 function building_road() {
     var road_map = [
@@ -112,6 +86,33 @@ function building_road() {
     
 }
 
+// Automatic car
+function creating_autocar(x, y) {
+    auto_car = game.add.sprite(x, y, 'auto_car');
+    auto_car.anchor.set(0.5);
+    auto_car.scale.set(0.12);
+
+    game.physics.p2.enable(auto_car, true);
+    auto_car.body.setCollisionGroup(carCollisionGroup);
+    auto_car.body.collides(obstacleCollisionGroup, car_obstacle_collisionHandler, this);
+    auto_car.body.collides(goalCollisionGroup, get_to_goal_collisionHandler, this)
+}
+
+// Goal
+function creating_goal(x, y) {
+    goal = game.add.sprite(x, y, 'goal');
+    goal.anchor.set(0.5);
+    goal.scale.set(0.3);
+    
+    game.physics.p2.enable(goal, false);
+    goal.body.setCollisionGroup(goalCollisionGroup);
+    goal.body.collides(carCollisionGroup);
+
+    goal.body.setZeroDamping();
+    goal.body.fixedRotation = true;
+}
+
+// Fences to make road
 function create_a_fence(road_map){
     var fence = game.add.sprite(road_map[0], road_map[1], road_map[3]);
     fence.anchor.set(0.5);
@@ -122,7 +123,7 @@ function create_a_fence(road_map){
     fence.body.static = true
     
     fence.body.setCollisionGroup(obstacleCollisionGroup);
-    fence.body.collides([carCollisionGroup, obstacleCollisionGroup]);
+    fence.body.collides([carCollisionGroup, obstacleCollisionGroup, signalXCollistionGroup, signalYCollistionGroup, signalFrontCollistionGroup, signalFrontXCollistionGroup, signalFrontYCollistionGroup]);
     
     obstacle_group.add(fence);
 } 
@@ -149,22 +150,26 @@ function creating_obstacles(x, y) {
    game.physics.p2.enable([obstacle1, obstacle2, obstacle3, obstacle4], false);
    
    obstacle1.body.setCollisionGroup(obstacleCollisionGroup);
-   obstacle1.body.collides([carCollisionGroup]);
+   obstacle1.body.collides([carCollisionGroup,
+        signalXCollistionGroup, signalYCollistionGroup, signalFrontCollistionGroup, signalFrontXCollistionGroup, signalFrontYCollistionGroup])
    obstacle1.body.setZeroDamping();
    obstacle1.body.fixedRotation = true;
 
    obstacle2.body.setCollisionGroup(obstacleCollisionGroup);
-   obstacle2.body.collides([carCollisionGroup]);
+   obstacle2.body.collides([carCollisionGroup,
+        signalXCollistionGroup, signalYCollistionGroup, signalFrontCollistionGroup, signalFrontXCollistionGroup, signalFrontYCollistionGroup]);
    obstacle2.body.setZeroDamping();
    obstacle2.body.fixedRotation = true;
 
    obstacle3.body.setCollisionGroup(obstacleCollisionGroup);
-   obstacle3.body.collides([carCollisionGroup]);
+   obstacle3.body.collides([carCollisionGroup,
+        signalXCollistionGroup, signalYCollistionGroup, signalFrontCollistionGroup, signalFrontXCollistionGroup, signalFrontYCollistionGroup]);
    obstacle3.body.setZeroDamping();
    obstacle3.body.fixedRotation = true;
 
    obstacle4.body.setCollisionGroup(obstacleCollisionGroup);
-   obstacle4.body.collides([carCollisionGroup]);
+   obstacle4.body.collides([carCollisionGroup,
+        signalXCollistionGroup, signalYCollistionGroup, signalFrontCollistionGroup, signalFrontXCollistionGroup, signalFrontYCollistionGroup]);
    obstacle4.body.setZeroDamping();
    obstacle4.body.fixedRotation = true;
 }

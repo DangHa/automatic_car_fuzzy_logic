@@ -2,6 +2,16 @@
 var mouseBody;
 var mouseConstraint;
 
+function set_up_dragging_object() {
+    mouseBody = new p2.Body();
+    game.physics.p2.world.addBody(mouseBody);
+
+    // attach pointer events
+    game.input.onDown.add(click, this);
+    game.input.onUp.add(release, this);
+    game.input.addMoveCallback(move, this);
+}
+
 function click(pointer) {
     var bodies = game.physics.p2.hitTest(pointer.position, [auto_car.body, goal.body, obstacle1.body, obstacle2.body, obstacle3.body, obstacle4.body]);
     
@@ -31,4 +41,110 @@ function move(pointer) {
     mouseBody.position[1] = game.physics.p2.pxmi(pointer.position.y);
 }
 
-// ------------------------------------
+// set up screen
+function set_up_screen() {
+    game.stage.backgroundColor = '#f3cca3';
+
+    // Roads
+    building_road();
+
+    // Obstacles
+    creating_obstacles(25, 50);
+
+    // Goal
+    creating_goal(100, 150);
+
+    // Auto car
+    creating_autocar(100, 300)
+
+    // Start button
+    var button = game.add.button(25, 450, 'button', startOnClick, this);
+    button.scale.set(0.4);
+    
+
+    for (var i = 0; i < 15; i++){
+        var bar = game.add.sprite(200, i*50, 'bar');
+        bar.scale.set(0.5);
+    }
+    for (var i = 0; i < 5; i++){
+        var bar = game.add.sprite(i*50, 370, 'bar');
+        bar.angle += 90
+        bar.scale.set(0.5);
+    }
+}
+
+// set up collision group
+function set_up_collision_group() {
+    // Collision
+    carCollisionGroup           = game.physics.p2.createCollisionGroup();
+    obstacleCollisionGroup      = game.physics.p2.createCollisionGroup();
+    goalCollisionGroup          = game.physics.p2.createCollisionGroup();
+    //Signal collision
+    signalXCollistionGroup      = game.physics.p2.createCollisionGroup();
+    signalYCollistionGroup      = game.physics.p2.createCollisionGroup();
+    signalFrontCollistionGroup  = game.physics.p2.createCollisionGroup();
+    signalFrontXCollistionGroup = game.physics.p2.createCollisionGroup();
+    signalFrontYCollistionGroup = game.physics.p2.createCollisionGroup();
+}
+
+// self driving with keyboard input------------------------------------
+function self_driving() {
+    var velocity = 100; 
+    var angularVelocity = 2
+
+    auto_car.body.velocity.x = 0;
+    auto_car.body.velocity.y = 0;
+    auto_car.body.angularVelocity = 0;
+
+    if (cursors.left.isDown){
+        auto_car.body.angularVelocity = -angularVelocity;
+    }
+    else if (cursors.right.isDown){
+        auto_car.body.angularVelocity = angularVelocity;
+    }
+
+    if (cursors.up.isDown){
+        auto_car.body.velocity.x = velocity*Math.sin(auto_car.body.angle*Math.PI/180);
+        auto_car.body.velocity.y = -velocity*Math.cos(auto_car.body.angle*Math.PI/180);
+    }
+    else if (cursors.down.isDown){
+        auto_car.body.velocity.x = -velocity*Math.sin(auto_car.body.angle*Math.PI/180);
+        auto_car.body.velocity.y = velocity*Math.cos(auto_car.body.angle*Math.PI/180);
+    }
+}
+
+// functions calculating distances 
+function calculate_dentaX() {
+    var a = auto_car.x - signal_x.x;
+    var b = auto_car.y - signal_x.y;
+
+    return Math.sqrt((a * a) + (b * b));
+}
+
+function calculate_dentaY() {
+    var a = auto_car.x - signal_y.x;
+    var b = auto_car.y - signal_y.y;
+
+    return Math.sqrt((a * a) + (b * b));
+}
+
+function calculate_front() {
+    var a = auto_car.x - signal_front.x;
+    var b = auto_car.y - signal_front.y;
+
+    return Math.sqrt((a * a) + (b * b));
+}
+
+function calculate_frontX() {
+    var a = auto_car.x - signal_frontx.x;
+    var b = auto_car.y - signal_frontx.y;
+
+    return Math.sqrt((a * a) + (b * b));
+}
+
+function calculate_frontY() {
+    var a = auto_car.x - signal_fronty.x;
+    var b = auto_car.y - signal_fronty.y;
+
+    return Math.sqrt((a * a) + (b * b));
+}

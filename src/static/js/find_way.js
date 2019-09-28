@@ -99,10 +99,8 @@ function get_point(object) {
     var result;
     var min = 1000000;
 
-    console.log(object.x)
     for (var i = 0; i < crossroad_coordinate.length; i++) {
         var distance = euclid_distance(crossroad_coordinate[i], [object.x, object.y])
-        console.log(distance)
         if (distance < min) {
             result = i
             min = distance
