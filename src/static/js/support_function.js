@@ -48,6 +48,9 @@ function set_up_screen() {
     // Roads
     building_road();
 
+    // Traffic lights
+    building_trafficLight();
+
     // Obstacles
     creating_obstacles(25, 50);
 
@@ -79,6 +82,7 @@ function set_up_collision_group() {
     carCollisionGroup            = game.physics.p2.createCollisionGroup();
     obstacleCollisionGroup       = game.physics.p2.createCollisionGroup();
     goalCollisionGroup           = game.physics.p2.createCollisionGroup();
+    trafficLightCollisionGroup   = game.physics.p2.createCollisionGroup();
     //Signal collision
     signalXCollistionGroup       = game.physics.p2.createCollisionGroup();
     signalYCollistionGroup       = game.physics.p2.createCollisionGroup();
@@ -160,7 +164,7 @@ function calculate_trafficLight() {
     var a = auto_car.x - traffic_signal.x;
     var b = auto_car.y - traffic_signal.y;
 
-    return Math.sqrt((a * a) + (b * b)) - error_y - 6;
+    return Math.sqrt((a * a) + (b * b));
 }
 
 function reset_point() {

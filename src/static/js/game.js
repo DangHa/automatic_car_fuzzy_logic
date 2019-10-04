@@ -4,11 +4,13 @@ var cursors;
 
 var auto_car;
 var obstacle_group;
+var trafficLight_group;
 var goal;
 var switch_auto_driving = false;
 
 // Collision
 var obstacleCollisionGroup;
+var trafficLightCollisionGroup;
 var carCollisionGroup;
 var goalCollisionGroup;
 
@@ -21,8 +23,9 @@ function preload () {
     game.load.image('bar', '../assets/images/bar.jpg');
     game.load.image('goal', '../assets/images/goal.jpg');
     game.load.image('button', '../assets/images/button.png');
-    game.load.image('kaboom', '../assets/images/kaboom.jpg')
-    game.load.image('signal', '../assets/images/signal.jpg')
+    game.load.image('kaboom', '../assets/images/kaboom.jpg');
+    game.load.image('signal', '../assets/images/signal.jpg');
+    game.load.image('traffic_light', '../assets/images/traffic_light.jpg');
 }
 
 // Creating some objects in the map

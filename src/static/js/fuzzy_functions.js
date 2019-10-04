@@ -34,7 +34,7 @@ function automatic_finding_way () {
 }
 
 function moving_by_fuzzy_logic() {
-    auto_car.body.velocity.y = -40
+    auto_car.body.velocity.y = -10
     fuzzy_function()
     return 0;
 }
@@ -119,13 +119,16 @@ function control_signal() {
         signal_fronty.reset(reset_point_x, reset_point_y);
     }
 
-    //traffic signal 
+    // --- traffic signal ---
     if (traffic_signal.alive) {
         traffic_signal.body.velocity.x = signalVelocity*Math.sin(car_angle*Math.PI/180);
         traffic_signal.body.velocity.y = -signalVelocity*Math.cos(car_angle*Math.PI/180);
-        if (calculate_trafficLight() > 500) {
+
+        if (calculate_trafficLight() > 100) {
             traffic_signal.kill()
-            traffic = 500;
+            traffic = 100;
+        }else if (calculate_trafficLight() < -1) {
+            traffic_signal.kill()
         }
     }else {
         traffic_signal.reset(auto_car.x, auto_car.y);  
@@ -164,9 +167,10 @@ function signalFrontY_obstacle_collisionHandler() {
     signal_fronty.kill();
 }
 
-function trafficSignal_trafficLight_collisionHandler() {
-    traffic = calculate_trafficLight();
+function trafficSignal_trafficLight_collisionHandler(body1, body2) {
+    traffic = calculate_trafficLight() - error_y - 6;
     // console.log("Traffic Light: " + traffic);
+    console.log(body2)  // -----------next time--------------> find color in here  --> need to add animation for traffic light
     traffic_signal.kill();
 }
 
@@ -200,11 +204,11 @@ function set_up_signal() {
     signal_fronty.body.collides(obstacleCollisionGroup, signalFrontY_obstacle_collisionHandler, this);
     signal_fronty.kill()
 
-    //traffic signal
+    //--- traffic signal ---
     traffic_signal = game.add.sprite(auto_car.x, auto_car.y, 'signal');
     game.physics.p2.enable([traffic_signal], false);
     traffic_signal.body.setCollisionGroup(trafficSignalCollistionGroup);
-    traffic_signal.body.collides(obstacleCollisionGroup, signalX_obstacle_collisionHandler, this);
+    traffic_signal.body.collides(trafficLightCollisionGroup, trafficSignal_trafficLight_collisionHandler, this);
     traffic_signal.kill()
 }
 
