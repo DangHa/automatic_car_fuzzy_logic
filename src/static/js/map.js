@@ -149,27 +149,16 @@ function creating_obstacles(x, y) {
    
    game.physics.p2.enable([obstacle1, obstacle2, obstacle3, obstacle4], false);
    
-   obstacle1.body.setCollisionGroup(obstacleCollisionGroup);
-   obstacle1.body.collides([carCollisionGroup,
+   set_up_object_collision(obstacle1)
+   set_up_object_collision(obstacle2)
+   set_up_object_collision(obstacle3)
+   set_up_object_collision(obstacle4)
+}
+
+function set_up_object_collision(object) {
+    object.body.setCollisionGroup(obstacleCollisionGroup);
+    object.body.collides([carCollisionGroup,
         signalXCollistionGroup, signalYCollistionGroup, signalFrontCollistionGroup, signalFrontXCollistionGroup, signalFrontYCollistionGroup])
-   obstacle1.body.setZeroDamping();
-   obstacle1.body.fixedRotation = true;
-
-   obstacle2.body.setCollisionGroup(obstacleCollisionGroup);
-   obstacle2.body.collides([carCollisionGroup,
-        signalXCollistionGroup, signalYCollistionGroup, signalFrontCollistionGroup, signalFrontXCollistionGroup, signalFrontYCollistionGroup]);
-   obstacle2.body.setZeroDamping();
-   obstacle2.body.fixedRotation = true;
-
-   obstacle3.body.setCollisionGroup(obstacleCollisionGroup);
-   obstacle3.body.collides([carCollisionGroup,
-        signalXCollistionGroup, signalYCollistionGroup, signalFrontCollistionGroup, signalFrontXCollistionGroup, signalFrontYCollistionGroup]);
-   obstacle3.body.setZeroDamping();
-   obstacle3.body.fixedRotation = true;
-
-   obstacle4.body.setCollisionGroup(obstacleCollisionGroup);
-   obstacle4.body.collides([carCollisionGroup,
-        signalXCollistionGroup, signalYCollistionGroup, signalFrontCollistionGroup, signalFrontXCollistionGroup, signalFrontYCollistionGroup]);
-   obstacle4.body.setZeroDamping();
-   obstacle4.body.fixedRotation = true;
+    object.body.setZeroDamping();
+    object.body.fixedRotation = true;
 }

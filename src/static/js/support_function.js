@@ -76,15 +76,16 @@ function set_up_screen() {
 // set up collision group
 function set_up_collision_group() {
     // Collision
-    carCollisionGroup           = game.physics.p2.createCollisionGroup();
-    obstacleCollisionGroup      = game.physics.p2.createCollisionGroup();
-    goalCollisionGroup          = game.physics.p2.createCollisionGroup();
+    carCollisionGroup            = game.physics.p2.createCollisionGroup();
+    obstacleCollisionGroup       = game.physics.p2.createCollisionGroup();
+    goalCollisionGroup           = game.physics.p2.createCollisionGroup();
     //Signal collision
-    signalXCollistionGroup      = game.physics.p2.createCollisionGroup();
-    signalYCollistionGroup      = game.physics.p2.createCollisionGroup();
-    signalFrontCollistionGroup  = game.physics.p2.createCollisionGroup();
-    signalFrontXCollistionGroup = game.physics.p2.createCollisionGroup();
-    signalFrontYCollistionGroup = game.physics.p2.createCollisionGroup();
+    signalXCollistionGroup       = game.physics.p2.createCollisionGroup();
+    signalYCollistionGroup       = game.physics.p2.createCollisionGroup();
+    signalFrontCollistionGroup   = game.physics.p2.createCollisionGroup();
+    signalFrontXCollistionGroup  = game.physics.p2.createCollisionGroup();
+    signalFrontYCollistionGroup  = game.physics.p2.createCollisionGroup();
+    trafficSignalCollistionGroup = game.physics.p2.createCollisionGroup();
 }
 
 // self driving with keyboard input------------------------------------
@@ -114,37 +115,57 @@ function self_driving() {
 }
 
 // functions calculating distances 
+var error_x = 13.301691198200878;
+var error_y = 18.901691198200878;
+
 function calculate_dentaX() {
     var a = auto_car.x - signal_x.x;
     var b = auto_car.y - signal_x.y;
 
-    return Math.sqrt((a * a) + (b * b));
+    return Math.sqrt((a * a) + (b * b)) - error_x;
 }
 
 function calculate_dentaY() {
     var a = auto_car.x - signal_y.x;
     var b = auto_car.y - signal_y.y;
 
-    return Math.sqrt((a * a) + (b * b));
+    return Math.sqrt((a * a) + (b * b)) - error_x;
 }
 
 function calculate_front() {
-    var a = auto_car.x - signal_front.x;
-    var b = auto_car.y - signal_front.y;
-
-    return Math.sqrt((a * a) + (b * b));
+    var [x, y] = reset_point();
+    var a = x - signal_front.x;
+    var b = y - signal_front.y;
+ 
+    return Math.sqrt((a * a) + (b * b)) - 6;
 }
 
 function calculate_frontX() {
-    var a = auto_car.x - signal_frontx.x;
-    var b = auto_car.y - signal_frontx.y;
+    var [x, y] = reset_point();
+    var a = x - signal_frontx.x;
+    var b = y - signal_frontx.y;
 
-    return Math.sqrt((a * a) + (b * b));
+    return Math.sqrt((a * a) + (b * b)) - 5.2;
 }
 
 function calculate_frontY() {
-    var a = auto_car.x - signal_fronty.x;
-    var b = auto_car.y - signal_fronty.y;
+    var [x, y] = reset_point();
+    var a = x - signal_fronty.x;
+    var b = y - signal_fronty.y;
 
-    return Math.sqrt((a * a) + (b * b));
+    return Math.sqrt((a * a) + (b * b)) - 5.2;
+}
+
+function calculate_trafficLight() {
+    var a = auto_car.x - traffic_signal.x;
+    var b = auto_car.y - traffic_signal.y;
+
+    return Math.sqrt((a * a) + (b * b)) - error_y - 6;
+}
+
+function reset_point() {
+    var x = auto_car.x + error_y * Math.sin(car_angle*Math.PI/180);
+    var y = auto_car.y - error_y * Math.cos(car_angle*Math.PI/180);
+    
+    return [x, y]
 }

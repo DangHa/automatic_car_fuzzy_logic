@@ -3,12 +3,14 @@ var signal_y;
 var signal_front;
 var signal_frontx;
 var signal_fronty;
+var traffic_signal;
 
 var signalXCollistionGroup;
 var signalYCollistionGroup;
 var signalFrontCollistionGroup;
 var signalFrontXCollistionGroup;
 var signalFrontYCollistionGroup;
+var trafficSignalCollistionGroup;
 
 // distances from 5 directions
 var denta_x = 0;
@@ -16,6 +18,7 @@ var denta_y = 0;
 var front   = 0;
 var front_x = 0;
 var front_y = 0;
+var traffic = 0;
 
 var car_angle = auto_car.body.angle;
 
@@ -31,7 +34,7 @@ function automatic_finding_way () {
 }
 
 function moving_by_fuzzy_logic() {
-    auto_car.body.velocity.y = -10
+    auto_car.body.velocity.y = -40
     fuzzy_function()
     return 0;
 }
@@ -67,8 +70,8 @@ function control_signal() {
             denta_y = 500;
         }
     }else {
-        signal_y.reset(auto_car.x, auto_car.y);  // create new signal
-        car_angle = auto_car.body.angle;         // update angle
+        signal_y.reset(auto_car.x, auto_car.y);
+        car_angle = auto_car.body.angle;
     }
 
     //signal front
@@ -80,8 +83,10 @@ function control_signal() {
             front = 500;
         }
     }else {
-        signal_front.reset(auto_car.x, auto_car.y);  
-        car_angle = auto_car.body.angle;         
+        car_angle = auto_car.body.angle;
+        var [reset_point_x, reset_point_y] = reset_point()
+
+        signal_front.reset(reset_point_x, reset_point_y);           
     }
 
     //signal front X
@@ -93,8 +98,10 @@ function control_signal() {
             front_x = 500;
         }
     }else {
-        signal_frontx.reset(auto_car.x, auto_car.y);  
-        car_angle = auto_car.body.angle;         
+        car_angle = auto_car.body.angle;
+        var [reset_point_x, reset_point_y] = reset_point()
+
+        signal_frontx.reset(reset_point_x, reset_point_y);        
     }
 
     //signal front Y
@@ -106,7 +113,22 @@ function control_signal() {
             front_y = 500;
         }
     }else {
-        signal_fronty.reset(auto_car.x, auto_car.y);  
+        car_angle = auto_car.body.angle;
+        var [reset_point_x, reset_point_y] = reset_point()
+
+        signal_fronty.reset(reset_point_x, reset_point_y);
+    }
+
+    //traffic signal 
+    if (traffic_signal.alive) {
+        traffic_signal.body.velocity.x = signalVelocity*Math.sin(car_angle*Math.PI/180);
+        traffic_signal.body.velocity.y = -signalVelocity*Math.cos(car_angle*Math.PI/180);
+        if (calculate_trafficLight() > 500) {
+            traffic_signal.kill()
+            traffic = 500;
+        }
+    }else {
+        traffic_signal.reset(auto_car.x, auto_car.y);  
         car_angle = auto_car.body.angle;         
     }
 }
@@ -114,32 +136,38 @@ function control_signal() {
 // signal collision function ----------------------
 function signalX_obstacle_collisionHandler() {
     denta_x = calculate_dentaX();
-    console.log("dentaX: " + denta_x);
+    // console.log("dentaX: " + denta_x);
     signal_x.kill();
 }
 
 function signalY_obstacle_collisionHandler() {
     denta_y = calculate_dentaY();
-    console.log("dentaY: " + denta_y);
+    // console.log("dentaY: " + denta_y);
     signal_y.kill();
 }
 
 function signalFront_obstacle_collisionHandler() {
-    front = calculate_front();
-    console.log("Front: " + front);
+    front = calculate_front();   
+    // console.log("Front: " + front);
     signal_front.kill();
 }
 
 function signalFrontX_obstacle_collisionHandler() {
     front_x = calculate_frontX();
-    console.log("FrontX: " + front_x);
+    // console.log("FrontX: " + front_x);
     signal_frontx.kill();
 }
 
 function signalFrontY_obstacle_collisionHandler() {
     front_y = calculate_frontY();
-    console.log("FrontY: " + front_y);
+    // console.log("FrontY: " + front_y);
     signal_fronty.kill();
+}
+
+function trafficSignal_trafficLight_collisionHandler() {
+    traffic = calculate_trafficLight();
+    // console.log("Traffic Light: " + traffic);
+    traffic_signal.kill();
 }
 
 // set up signal by weapon function in phaserjs ----
@@ -171,4 +199,12 @@ function set_up_signal() {
     signal_fronty.body.setCollisionGroup(signalFrontYCollistionGroup);
     signal_fronty.body.collides(obstacleCollisionGroup, signalFrontY_obstacle_collisionHandler, this);
     signal_fronty.kill()
+
+    //traffic signal
+    traffic_signal = game.add.sprite(auto_car.x, auto_car.y, 'signal');
+    game.physics.p2.enable([traffic_signal], false);
+    traffic_signal.body.setCollisionGroup(trafficSignalCollistionGroup);
+    traffic_signal.body.collides(obstacleCollisionGroup, signalX_obstacle_collisionHandler, this);
+    traffic_signal.kill()
 }
+
