@@ -131,28 +131,28 @@ function create_a_fence(road_map){
 // Traffic lights
 var trafficLight_position = [
     // d
-    [375, 425, 90], [425, 425, 90], //a
-    [350, 400, 0], // b
-    [375, 375, 90], [425, 375, 90], // e
-    [450, 400, 0], // i
+    [375, 425, 90, [0, 1]], [425, 425, 90, [0, 1]], //a
+    [350, 400, 0, [1, 0]], // b
+    [375, 375, 90, [0, 1]], [425, 375, 90, [0, 1]], // e
+    [450, 400, 0, [1, 0]], // i
 
     //e
-    [350, 300, 0], //c
-    [375, 325, 90], [425, 325, 90], //d
-    [375, 275, 90], [425, 275, 90], //f
-    [450, 300, 0], //j
+    [350, 300, 0, [1, 0]], //c
+    [375, 325, 90, [0, 1]], [425, 325, 90, [0, 1]], //d
+    [375, 275, 90], [0, 1], [425, 275, 90, [0, 1]], //f
+    [450, 300, 0, [1, 0]], //j
 
     //i
-    [500, 400, 0], //d
-    [525, 425, 90], //h
-    [525, 375, 90], //j
-    [550, 400, 0], //k
+    [500, 400, 0, [1, 0]], //d
+    [525, 425, 90, [0, 1]], //h
+    [525, 375, 90, [0, 1]], //j
+    [550, 400, 0, [1, 0]], //k
 
     //n
-    [700, 350, 0], //k
-    [725, 375, 90], //l
-    [750, 350, 0], //m
-    [725, 325, 90], //o
+    [700, 350, 0, [1, 0]], //k
+    [725, 375, 90, [0, 1]], //l
+    [750, 350, 0, [1, 0]], //m
+    [725, 325, 90, [0, 1]], //o
 ];
 
 function building_trafficLight() {
@@ -164,9 +164,12 @@ function building_trafficLight() {
 }
 
 function create_trafficLight(light_map) {
-    var light = game.add.sprite(light_map[0], light_map[1], 'traffic_light');
+    var light = game.add.sprite(light_map[0], light_map[1], 'traffic_light_test');
     light.anchor.set(0.5);
     light.scale.set(0.5);
+
+    light.animations.add('light',  light_map[3], 1, true); // 1 = 1 frames in a second
+    light.animations.play('light');
 
     game.physics.p2.enable(light, false);
     light.body.angle += light_map[2];
