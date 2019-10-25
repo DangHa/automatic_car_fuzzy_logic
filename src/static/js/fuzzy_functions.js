@@ -124,15 +124,17 @@ function control_signal() {
         traffic_signal.body.velocity.x = signalVelocity*Math.sin(car_angle*Math.PI/180);
         traffic_signal.body.velocity.y = -signalVelocity*Math.cos(car_angle*Math.PI/180);
 
-        if (calculate_trafficLight() > 100) {
+        if (calculate_trafficLight() > 200) {
             traffic_signal.kill()
-            traffic = 100;
-        }else if (calculate_trafficLight() < -1) {
-            traffic_signal.kill()
+            traffic = 200;
         }
+        
     }else {
-        traffic_signal.reset(auto_car.x, auto_car.y);  
-        car_angle = auto_car.body.angle;         
+        // handle the error of library phaserjs - when one object overlap on another 
+        if (calculate_trafficLight() >  7 || traffic === 0) {
+            traffic_signal.reset(auto_car.x, auto_car.y);
+            car_angle = auto_car.body.angle;   
+        }
     }
 }
 
@@ -167,10 +169,16 @@ function signalFrontY_obstacle_collisionHandler() {
     signal_fronty.kill();
 }
 
+// traffic sinal
 function trafficSignal_trafficLight_collisionHandler(body1, body2) {
     traffic = calculate_trafficLight() - error_y - 6;
-    // console.log("Traffic Light: " + traffic);
-    console.log(body2)  // -----------next time--------------> find color in here  --> need to add animation for traffic light
+    // console.log("Traffic Light2: " + traffic);
+    
+    // console.log(body2)  // -----------next time--------------> find color in here  --> need to add animation for traffic light
+    traffic_signal.kill();
+}
+
+function trafficSignal_obstacle_collisionHandler() {
     traffic_signal.kill();
 }
 
@@ -211,4 +219,3 @@ function set_up_signal() {
     traffic_signal.body.collides(trafficLightCollisionGroup, trafficSignal_trafficLight_collisionHandler, this);
     traffic_signal.kill()
 }
-
