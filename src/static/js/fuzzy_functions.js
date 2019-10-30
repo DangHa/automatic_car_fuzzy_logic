@@ -1,3 +1,7 @@
+//key to lock traffic signal when car go into a crossroad area
+var lock_signal          = true;
+var lock_trafficDistance = true;
+
 var signal_x;
 var signal_y;
 var signal_front;
@@ -34,7 +38,7 @@ function automatic_finding_way () {
 }
 
 function moving_by_fuzzy_logic() {
-    auto_car.body.velocity.y = -10
+    auto_car.body.velocity.y = -30
     fuzzy_function()
     return 0;
 }
@@ -131,9 +135,23 @@ function control_signal() {
         
     }else {
         // handle the error of library phaserjs - when one object overlap on another 
-        if (calculate_trafficLight() >  7 || traffic === 0) {
+        if (calculate_trafficLight() >  9 || traffic === 0) {
+            //key to lock signal when car go into a crossroad area
+            if (lock_signal === false) {
+                lock_signal = true
+            }
             traffic_signal.reset(auto_car.x, auto_car.y);
             car_angle = auto_car.body.angle;   
+        }else {
+            //key to lock signal when car go into a crossroad area
+            if (lock_signal === true && lock_trafficDistance === true){
+                lock_signal          = false;
+                lock_trafficDistance = false;
+            }
+            if (lock_signal === true && lock_trafficDistance === false){
+                lock_signal          = false;
+                lock_trafficDistance = true;
+            }
         }
     }
 }
@@ -171,7 +189,12 @@ function signalFrontY_obstacle_collisionHandler() {
 
 // traffic sinal
 function trafficSignal_trafficLight_collisionHandler(body1, body2) {
-    traffic = calculate_trafficLight() - error_y - 6;
+    if (lock_trafficDistance === true) {
+        traffic = calculate_trafficLight() - error_y - 6;
+    }else {
+        traffic = 200
+    }
+    
     // console.log("Traffic Light2: " + traffic);
     
     // console.log(body2)  // -----------next time--------------> find color in here  --> need to add animation for traffic light
