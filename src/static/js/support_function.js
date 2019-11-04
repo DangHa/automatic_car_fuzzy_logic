@@ -173,3 +173,20 @@ function reset_point() {
     
     return [x, y]
 }
+
+const red   = 1;
+const green = 0;
+function get_traffic_light(frame) {
+    var light = red;
+    var time  = 0;
+    
+    if(frame <= 9) {
+        light = green;
+        time  = 9 - frame;
+    }else{
+        light = red;
+        time  = 19 - frame
+    }
+
+    return {light, time}
+}

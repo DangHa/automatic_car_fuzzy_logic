@@ -128,31 +128,34 @@ function create_a_fence(road_map){
     obstacle_group.add(fence);
 }
 
-// Traffic lights
+// Creating traffic lights -----------
+const greenLight = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19];
+const redLight   = [10,11,12,13,14,15,16,17,18,19,0,1,2,3,4,5,6,7,8,9];
+
 var trafficLight_position = [
     // d
-    [375, 425, 90, [0, 1]], [425, 425, 90, [0, 1]], //a
-    [350, 400, 0, [1, 0]], // b
-    [375, 375, 90, [0, 1]], [425, 375, 90, [0, 1]], // e
-    [450, 400, 0, [1, 0]], // i
+    [375, 425, 90, greenLight], [425, 425, 90, greenLight], //a
+    [350, 400, 0, redLight], // b
+    [375, 375, 90, greenLight], [425, 375, 90, greenLight], // e
+    [450, 400, 0, redLight], // i
 
     //e
-    [350, 300, 0, [1, 0]], //c
-    [375, 325, 90, [0, 1]], [425, 325, 90, [0, 1]], //d
-    [375, 275, 90], [0, 1], [425, 275, 90, [0, 1]], //f
-    [450, 300, 0, [1, 0]], //j
+    [350, 300, 0, redLight], //c
+    [375, 325, 90, greenLight], [425, 325, 90, greenLight], //d
+    [375, 275, 90, greenLight], [425, 275, 90, greenLight], //f
+    [450, 300, 0, redLight], //j
 
     //i
-    [500, 400, 0, [1, 0]], //d
-    [525, 425, 90, [0, 1]], //h
-    [525, 375, 90, [0, 1]], //j
-    [550, 400, 0, [1, 0]], //k
+    [500, 400, 0, redLight], //d
+    [525, 425, 90, greenLight], //h
+    [525, 375, 90, greenLight], //j
+    [550, 400, 0, redLight], //k
 
     //n
-    [700, 350, 0, [1, 0]], //k
-    [725, 375, 90, [0, 1]], //l
-    [750, 350, 0, [1, 0]], //m
-    [725, 325, 90, [0, 1]], //o
+    [700, 350, 0, redLight], //k
+    [725, 375, 90, greenLight], //l
+    [750, 350, 0, redLight], //m
+    [725, 325, 90, greenLight], //o
 ];
 
 function building_trafficLight() {
@@ -168,7 +171,7 @@ function create_trafficLight(light_map) {
     light.anchor.set(0.5);
     light.scale.set(0.5);
 
-    light.animations.add('light',  light_map[3], 1, true); // 1 = 1 frames in a second
+    light.animations.add('light',  light_map[3], 2, true); // 1 = 1 frames in a second
     light.animations.play('light');
 
     game.physics.p2.enable(light, false);
@@ -215,3 +218,4 @@ function set_up_object_collision(object) {
     object.body.setZeroDamping();
     object.body.fixedRotation = true;
 }
+

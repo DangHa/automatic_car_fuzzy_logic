@@ -22,7 +22,9 @@ var denta_y = 0;
 var front   = 0;
 var front_x = 0;
 var front_y = 0;
-var traffic = 0;
+
+var traffic_distance = 0;
+var traffic_time = 0
 
 var car_angle = auto_car.body.angle;
 
@@ -130,12 +132,12 @@ function control_signal() {
 
         if (calculate_trafficLight() > 200) {
             traffic_signal.kill()
-            traffic = 200;
+            traffic_distance = 200;
         }
         
     }else {
         // handle the error of library phaserjs - when one object overlap on another 
-        if (calculate_trafficLight() >  9 || traffic === 0) {
+        if (calculate_trafficLight() >  9 || traffic_distance === 0) {
             //key to lock signal when car go into a crossroad area
             if (lock_signal === false) {
                 lock_signal = true
@@ -190,14 +192,15 @@ function signalFrontY_obstacle_collisionHandler() {
 // traffic sinal
 function trafficSignal_trafficLight_collisionHandler(body1, body2) {
     if (lock_trafficDistance === true) {
-        traffic = calculate_trafficLight() - error_y - 6;
+        traffic_distance = calculate_trafficLight() - error_y - 6;
     }else {
-        traffic = 200
+        traffic_distance = 200
     }
+    // console.log("traffic light distance: " + traffic_distance);
+
+    traffic_time = get_traffic_light(body2.sprite.animations.frame);
+    // console.log(traffic_time)
     
-    // console.log("Traffic Light2: " + traffic);
-    
-    // console.log(body2)  // -----------next time--------------> find color in here  --> need to add animation for traffic light
     traffic_signal.kill();
 }
 

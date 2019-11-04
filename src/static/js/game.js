@@ -25,7 +25,7 @@ function preload () {
     game.load.image('button', '../assets/images/button.png');
     game.load.image('kaboom', '../assets/images/kaboom.jpg');
     game.load.image('signal', '../assets/images/signal.jpg');
-    game.load.spritesheet('traffic_light_test', '../assets/images/traffic_light.png', 10, 100, 2);
+    game.load.spritesheet('traffic_light_test', '../assets/images/traffic_light.png', 10, 100, 20);
 }
 
 // Creating some objects in the map
