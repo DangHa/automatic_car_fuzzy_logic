@@ -29,9 +29,6 @@ var traffic_time = 0
 var car_angle = auto_car.body.angle;
 
 function automatic_finding_way () {
-    var velocity = 100; 
-    var angularVelocity = 1
-
     // turn on signal
     control_signal()
 
@@ -40,7 +37,10 @@ function automatic_finding_way () {
 }
 
 function moving_by_fuzzy_logic() {
-    auto_car.body.velocity.y = -30
+    var velocity = 30; 
+    var angularVelocity = 1
+
+    auto_car.body.velocity.y = -velocity
     fuzzy_function()
     return 0;
 }

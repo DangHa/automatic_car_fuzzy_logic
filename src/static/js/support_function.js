@@ -43,7 +43,8 @@ function move(pointer) {
 
 // set up screen
 function set_up_screen() {
-    game.stage.backgroundColor = '#f3cca3';
+    game.stage.backgroundColor = '#ffffff';
+    background = game.add.sprite(205, 0, 'background');
 
     // Roads
     building_road();

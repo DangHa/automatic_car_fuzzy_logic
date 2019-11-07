@@ -92,7 +92,7 @@ function creating_autocar(x, y) {
     auto_car.anchor.set(0.5);
     auto_car.scale.set(0.12);
 
-    game.physics.p2.enable(auto_car, true);
+    game.physics.p2.enable(auto_car, false);
     auto_car.body.setCollisionGroup(carCollisionGroup);
     auto_car.body.collides(obstacleCollisionGroup, car_obstacle_collisionHandler, this);
     auto_car.body.collides(goalCollisionGroup, get_to_goal_collisionHandler, this)
