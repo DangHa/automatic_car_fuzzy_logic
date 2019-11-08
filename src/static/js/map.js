@@ -118,7 +118,7 @@ function create_a_fence(road_map){
     fence.anchor.set(0.5);
     fence.scale.set(0.5);
 
-    game.physics.p2.enable(fence, true);
+    game.physics.p2.enable(fence, false);
     fence.body.angle += road_map[2];
     fence.body.static = true
     
