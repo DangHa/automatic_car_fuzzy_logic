@@ -36,19 +36,6 @@ function automatic_finding_way () {
     moving_by_fuzzy_logic()
 }
 
-function moving_by_fuzzy_logic() {
-    var velocity = 30; 
-    var angularVelocity = 1
-
-    auto_car.body.velocity.y = -velocity
-    fuzzy_function()
-    return 0;
-}
-
-function fuzzy_function() {
-
-}
-
 // -------------  SIGNAL FUNCTION ---------------------------
 function control_signal() {
     var signalVelocity = 400
@@ -58,26 +45,30 @@ function control_signal() {
         signal_x.body.velocity.x = signalVelocity*Math.sin((car_angle-90)*Math.PI/180);
         signal_x.body.velocity.y = -signalVelocity*Math.cos((car_angle-90)*Math.PI/180);
 
-        if (calculate_dentaX() > 500) {
+        if (calculate_dentaX() > 100) {
             signal_x.kill()
-            denta_x = 500;
+            denta_x = 100;
         }
     }else {
-        signal_x.reset(auto_car.x, auto_car.y);  // create new signal
-        car_angle = auto_car.body.angle;         // update angle
+        car_angle = auto_car.body.angle;                // update angle
+        var [reset_point_x, reset_point_y] = reset_point()
+
+        signal_x.reset(reset_point_x, reset_point_y);   // create new signal      
     }
 
     //signal Y
     if (signal_y.alive) {
         signal_y.body.velocity.x = signalVelocity*Math.sin((car_angle+90)*Math.PI/180);
         signal_y.body.velocity.y = -signalVelocity*Math.cos((car_angle+90)*Math.PI/180);
-        if (calculate_dentaX() > 500) {
+        if (calculate_dentaX() > 100) {
             signal_y.kill()
-            denta_y = 500;
+            denta_y = 100;
         }
     }else {
-        signal_y.reset(auto_car.x, auto_car.y);
-        car_angle = auto_car.body.angle;
+        car_angle = auto_car.body.angle;                
+        var [reset_point_x, reset_point_y] = reset_point()
+
+        signal_y.reset(reset_point_x, reset_point_y); 
     }
 
     //signal front

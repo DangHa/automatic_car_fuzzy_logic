@@ -80,9 +80,9 @@ function get_to_goal_collisionHandler (body1, body2) {
 }
 function car_obstacle_collisionHandler (body1, body2) {
     console.log("Boommmm !!")
-    auto_car.kill();
+    // auto_car.kill();
 
-    game_over(auto_car);
+    // game_over(auto_car);
 }
 
 // When automatic car was destroyed
