@@ -60,7 +60,7 @@ function control_signal() {
     if (signal_y.alive) {
         signal_y.body.velocity.x = signalVelocity*Math.sin((car_angle+90)*Math.PI/180);
         signal_y.body.velocity.y = -signalVelocity*Math.cos((car_angle+90)*Math.PI/180);
-        if (calculate_dentaX() > 100) {
+        if (calculate_dentaY() > 100) {
             signal_y.kill()
             denta_y = 100;
         }
@@ -75,9 +75,9 @@ function control_signal() {
     if (signal_front.alive) {
         signal_front.body.velocity.x = signalVelocity*Math.sin(car_angle*Math.PI/180);
         signal_front.body.velocity.y = -signalVelocity*Math.cos(car_angle*Math.PI/180);
-        if (calculate_front() > 500) {
+        if (calculate_front() > 150) {
             signal_front.kill()
-            front = 500;
+            front = 150;
         }
     }else {
         car_angle = auto_car.body.angle;
@@ -90,9 +90,9 @@ function control_signal() {
     if (signal_frontx.alive) {
         signal_frontx.body.velocity.x = signalVelocity*Math.sin((car_angle-30)*Math.PI/180);
         signal_frontx.body.velocity.y = -signalVelocity*Math.cos((car_angle-30)*Math.PI/180);
-        if (calculate_frontX() > 500) {
+        if (calculate_frontX() > 150) {
             signal_frontx.kill()
-            front_x = 500;
+            front_x = 150;
         }
     }else {
         car_angle = auto_car.body.angle;
@@ -105,9 +105,9 @@ function control_signal() {
     if (signal_fronty.alive) {
         signal_fronty.body.velocity.x = signalVelocity*Math.sin((car_angle+30)*Math.PI/180);
         signal_fronty.body.velocity.y = -signalVelocity*Math.cos((car_angle+30)*Math.PI/180);
-        if (calculate_frontY() > 500) {
+        if (calculate_frontY() > 150) {
             signal_fronty.kill()
-            front_y = 500;
+            front_y = 150;
         }
     }else {
         car_angle = auto_car.body.angle;
@@ -121,9 +121,9 @@ function control_signal() {
         traffic_signal.body.velocity.x = signalVelocity*Math.sin(car_angle*Math.PI/180);
         traffic_signal.body.velocity.y = -signalVelocity*Math.cos(car_angle*Math.PI/180);
 
-        if (calculate_trafficLight() > 200) {
+        if (calculate_trafficLight() > 150) {
             traffic_signal.kill()
-            traffic_distance = 200;
+            traffic_distance = 150;
         }
         
     }else {
@@ -189,7 +189,7 @@ function trafficSignal_trafficLight_collisionHandler(body1, body2) {
     }
     // console.log("traffic light distance: " + traffic_distance);
 
-    traffic_time = get_traffic_light(body2.sprite.animations.frame);
+    traffic_time = body2.sprite.animations.frame + 1;
     // console.log(traffic_time)
     
     traffic_signal.kill();
