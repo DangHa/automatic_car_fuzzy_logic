@@ -20,14 +20,14 @@ function controlling_deviation() {
     // -------avoid the obstacle-----------------------
 
     // thả denta, xe đã vượt qua vật cản -- calculate_temp_position tính khoảng cách đến chỗ xe đã vượt được vật cản
-    if (hold_deviation === true && calculate_temp_position() >= 150){
-        console.log(" back : " + calculate_temp_position())
+    if (hold_deviation === true && calculate_temp_position() > 120){
+        // console.log("back : " + calculate_temp_position())
         hold_deviation = false
     }
 
     // Xác định hướng có thể vượt -- hold_deviation để giữ cho denta bị thay đổi trong 1 khoảng thời gian
     if (front <= 60 && front >= 40 && hold_deviation === false ) {
-        console.log("hold_deviation: " + front_x)
+        
         if (front_x >= 140){ 
             hold_deviation = true
             temp_x = auto_car.x
@@ -44,9 +44,9 @@ function controlling_deviation() {
     //chỉnh denta để rẽ -- khi hold_deviation vẫn còn cho rẽ
     if(hold_deviation === true){
         if(turn_left && denta_x > 10){              // turn left
-            denta_x *= 1.144
+            denta_x *= 1.3
         }else if (!turn_left && denta_y > 10){                      // turn right
-            denta_x /= 1.144
+            denta_y *= 1.3
         }
     }
     // --------------------------------------------------------------
@@ -57,7 +57,7 @@ function controlling_deviation() {
     
     var final_fuzzy = choosing_deviation_steering_rules(deviation);
     var angular = final_fuzzy * 3
-    // console.log("fuzzy steering result: " + (final_fuzzy+0.5));
+    console.log("fuzzy steering result: " + (final_fuzzy+0.5));
 
     auto_car.body.angularVelocity = angular;
 }
@@ -449,7 +449,7 @@ function rule1(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = medium_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule2(distance, light_distance, light_status){
@@ -460,7 +460,7 @@ function rule2(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = slow_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule3(distance, light_distance, light_status){
@@ -471,7 +471,7 @@ function rule3(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = stop(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule4(distance, light_distance, light_status){
@@ -482,7 +482,7 @@ function rule4(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = medium_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule5(distance, light_distance, light_status){
@@ -493,7 +493,7 @@ function rule5(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = slow_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule6(distance, light_distance, light_status){
@@ -504,7 +504,7 @@ function rule6(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = stop(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule7(distance, light_distance, light_status){
@@ -515,7 +515,7 @@ function rule7(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = medium_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule8(distance, light_distance, light_status){
@@ -526,7 +526,7 @@ function rule8(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = slow_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 function rule9(distance, light_distance, light_status){
     var u_LD = close_distance(light_distance);
@@ -536,7 +536,7 @@ function rule9(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = stop(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule10(distance, light_distance, light_status){
@@ -547,7 +547,7 @@ function rule10(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = medium_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule11(distance, light_distance, light_status){
@@ -558,7 +558,7 @@ function rule11(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = slow_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule12(distance, light_distance, light_status){
@@ -569,7 +569,7 @@ function rule12(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = stop(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule13(distance, light_distance, light_status){
@@ -580,7 +580,7 @@ function rule13(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = fast_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule14(distance, light_distance, light_status){
@@ -591,7 +591,7 @@ function rule14(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = medium_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule15(distance, light_distance, light_status){
@@ -602,7 +602,7 @@ function rule15(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = stop(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule16(distance, light_distance, light_status){
@@ -613,7 +613,7 @@ function rule16(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = fast_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 function rule17(distance, light_distance, light_status){
     var u_LD = close_distance(light_distance);
@@ -623,7 +623,7 @@ function rule17(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = medium_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule18(distance, light_distance, light_status){
@@ -634,7 +634,7 @@ function rule18(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = stop(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule19(distance, light_distance, light_status){
@@ -645,7 +645,7 @@ function rule19(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = medium_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule20(distance, light_distance, light_status){
@@ -656,7 +656,7 @@ function rule20(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = slow_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule21(distance, light_distance, light_status){
@@ -667,7 +667,7 @@ function rule21(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = stop(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule22(distance, light_distance, light_status){
@@ -678,7 +678,7 @@ function rule22(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = medium_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule23(distance, light_distance, light_status){
@@ -689,7 +689,7 @@ function rule23(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = slow_speed(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule24(distance, light_distance, light_status){
@@ -700,7 +700,7 @@ function rule24(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = stop(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule25(distance, light_distance, light_status){
@@ -711,7 +711,7 @@ function rule25(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = stop(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule26(distance, light_distance, light_status){
@@ -722,7 +722,7 @@ function rule26(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = stop(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 function rule27(distance, light_distance, light_status){
@@ -733,7 +733,7 @@ function rule27(distance, light_distance, light_status){
     var u = Math.min(u_LD, u_LS, u_D)
     result = stop(u);
     
-    return [u, result]
+    return [u_LD*u_LS*u_D, result]
 }
 
 // Speed

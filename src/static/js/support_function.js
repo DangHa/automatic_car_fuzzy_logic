@@ -61,8 +61,12 @@ function set_up_screen() {
     // Auto car
     creating_autocar(400, 500)
 
+    // Findding way button
+    var button = game.add.button(25, 400, 'findwaw_button', findingWayOnClick, this);
+    button.scale.set(0.4);
+
     // Start button
-    var button = game.add.button(25, 450, 'button', startOnClick, this);
+    var button = game.add.button(25, 500, 'button', startOnClick, this);
     button.scale.set(0.4);
     
 
@@ -176,8 +180,8 @@ function reset_point() {
 }
 
 function calculate_temp_position(){
-    var a = auto_car.x - traffic_signal.x;
-    var b = auto_car.y - traffic_signal.y;
+    var a = auto_car.x - temp_x;
+    var b = auto_car.y - temp_y;
 
     return Math.sqrt((a * a) + (b * b));
 }

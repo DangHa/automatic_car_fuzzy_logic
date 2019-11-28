@@ -24,6 +24,8 @@ function preload () {
     game.load.image('bar', '../assets/images/bar.jpg');
     game.load.image('goal', '../assets/images/goal.jpg');
     game.load.image('button', '../assets/images/button.png');
+    game.load.image('findwaw_button', '../assets/images/findwaw_button.png');
+
     game.load.image('kaboom', '../assets/images/kaboom.jpg');
     game.load.image('signal', '../assets/images/signal.jpg');
     game.load.spritesheet('traffic_light_test', '../assets/images/traffic_light.png', 10, 100, 20);
@@ -66,8 +68,11 @@ function update() {
 
 
 // ----------support function ------------
-function startOnClick () {
+function findingWayOnClick() {
     find_way(1, 16);
+}
+
+function startOnClick () {
     switch_auto_driving = true;
 }
 
