@@ -174,3 +174,10 @@ function reset_point() {
     
     return [x, y]
 }
+
+function calculate_temp_position(){
+    var a = auto_car.x - traffic_signal.x;
+    var b = auto_car.y - traffic_signal.y;
+
+    return Math.sqrt((a * a) + (b * b));
+}

@@ -88,8 +88,8 @@ function control_signal() {
 
     //signal front X
     if (signal_frontx.alive) {
-        signal_frontx.body.velocity.x = signalVelocity*Math.sin((car_angle-30)*Math.PI/180);
-        signal_frontx.body.velocity.y = -signalVelocity*Math.cos((car_angle-30)*Math.PI/180);
+        signal_frontx.body.velocity.x = signalVelocity*Math.sin((car_angle-10)*Math.PI/180);
+        signal_frontx.body.velocity.y = -signalVelocity*Math.cos((car_angle-10)*Math.PI/180);
         if (calculate_frontX() > 150) {
             signal_frontx.kill()
             front_x = 150;
@@ -103,8 +103,8 @@ function control_signal() {
 
     //signal front Y
     if (signal_fronty.alive) {
-        signal_fronty.body.velocity.x = signalVelocity*Math.sin((car_angle+30)*Math.PI/180);
-        signal_fronty.body.velocity.y = -signalVelocity*Math.cos((car_angle+30)*Math.PI/180);
+        signal_fronty.body.velocity.x = signalVelocity*Math.sin((car_angle+10)*Math.PI/180);
+        signal_fronty.body.velocity.y = -signalVelocity*Math.cos((car_angle+10)*Math.PI/180);
         if (calculate_frontY() > 150) {
             signal_fronty.kill()
             front_y = 150;

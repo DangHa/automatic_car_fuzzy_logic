@@ -1,3 +1,9 @@
+// avoid the obstacle
+var temp_x = 0;
+var temp_y = 0;
+var hold_deviation = false
+var turn_left = true;
+
 function moving_by_fuzzy_logic() {
     // Deviation
     controlling_deviation()
@@ -10,7 +16,43 @@ function moving_by_fuzzy_logic() {
 // ------------------- Deviation control ------------------------
 function controlling_deviation() {    
     // Deviation-steering
+
+    // -------avoid the obstacle-----------------------
+
+    // thả denta, xe đã vượt qua vật cản -- calculate_temp_position tính khoảng cách đến chỗ xe đã vượt được vật cản
+    if (hold_deviation === true && calculate_temp_position() >= 150){
+        console.log(" back : " + calculate_temp_position())
+        hold_deviation = false
+    }
+
+    // Xác định hướng có thể vượt -- hold_deviation để giữ cho denta bị thay đổi trong 1 khoảng thời gian
+    if (front <= 60 && front >= 40 && hold_deviation === false ) {
+        console.log("hold_deviation: " + front_x)
+        if (front_x >= 140){ 
+            hold_deviation = true
+            temp_x = auto_car.x
+            temp_y = auto_car.y
+            turn_left = true        // turn left
+        }else if (front_y >= 140){ 
+            hold_deviation = true
+            temp_x = auto_car.x
+            temp_y = auto_car.y
+            turn_left = false       // turn right
+        }
+    }
+
+    //chỉnh denta để rẽ -- khi hold_deviation vẫn còn cho rẽ
+    if(hold_deviation === true){
+        if(turn_left && denta_x > 10){              // turn left
+            denta_x *= 1.144
+        }else if (!turn_left && denta_y > 10){                      // turn right
+            denta_x /= 1.144
+        }
+    }
+    // --------------------------------------------------------------
+
     deviation = denta_x/(denta_x+denta_y);
+
     // console.log("Deviation: " + deviation);
     
     var final_fuzzy = choosing_deviation_steering_rules(deviation);
@@ -352,7 +394,7 @@ function choosing_distance_trafficlight_speed_rules(distance, light_distance, li
                 result_denominator += weight
             }
 
-            must_stop = close_distance(light_distance) === 1
+            must_stop = close_distance(light_distance) === 1 && lock_signal === true
         }
     }
 
@@ -382,8 +424,8 @@ function choosing_distance_trafficlight_speed_rules(distance, light_distance, li
 // rule 10:  lessgreen    far        far           medium
 // rule 11:  lessgreen    far        medium        slow
 // rule 12:  lessgreen    far        close         stop
-// rule 13:  lessgreen    medium     far           medium
-// rule 14:  lessgreen    medium     medium        slow
+// rule 13:  lessgreen    medium     far           fast
+// rule 14:  lessgreen    medium     medium        medium
 // rule 15:  lessgreen    medium     close         stop
 // rule 16:  lessgreen    close      far           fast
 // rule 17:  lessgreen    close      medium        medium
@@ -536,7 +578,7 @@ function rule13(distance, light_distance, light_status){
     var u_D  = far_distance(distance);
 
     var u = Math.min(u_LD, u_LS, u_D)
-    result = medium_speed(u);
+    result = fast_speed(u);
     
     return [u, result]
 }
@@ -547,7 +589,7 @@ function rule14(distance, light_distance, light_status){
     var u_D  = medium_distance(distance);
 
     var u = Math.min(u_LD, u_LS, u_D)
-    result = slow_speed(u);
+    result = medium_speed(u);
     
     return [u, result]
 }
@@ -751,7 +793,7 @@ function close_distance(d) {
     if (d <= 15){
         u = 1;
     }else {
-        u = (30-d)/25;
+        u = (30-d)/15;
     }
 
     return u
