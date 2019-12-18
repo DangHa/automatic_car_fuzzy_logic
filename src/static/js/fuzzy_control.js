@@ -15,9 +15,8 @@ function moving_by_fuzzy_logic() {
 // --------------------------------------------------------------
 // ------------------- Deviation control ------------------------
 function controlling_deviation() {    
-    // Deviation-steering
-
-    // -------avoid the obstacle-----------------------
+    
+    // ----------avoiding the obstacle-----------------------
 
     // thả denta, xe đã vượt qua vật cản -- calculate_temp_position tính khoảng cách đến chỗ xe đã vượt được vật cản
     if (hold_deviation === true && calculate_temp_position() > 120){
@@ -44,14 +43,15 @@ function controlling_deviation() {
     //chỉnh denta để rẽ -- khi hold_deviation vẫn còn cho rẽ
     if(hold_deviation === true){
         if(turn_left && denta_x > 10){              // turn left
-            denta_x *= 1.3
+            denta_x *= 1.29
         }else if (!turn_left && denta_y > 10){                      // turn right
-            denta_y *= 1.3
+            denta_y *= 1.29
         }
     }
+
     // --------------------------------------------------------------
 
-
+    // Deviation-steering
     deviation = denta_x/(denta_x+denta_y);
     // console.log("Deviation: " + deviation);
     
