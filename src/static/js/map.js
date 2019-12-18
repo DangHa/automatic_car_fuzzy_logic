@@ -6,6 +6,7 @@ function building_road() {
         [275, 325, 90, 'road'],
         [275, 275, 90, 'road'],
 
+        [350, 550, 0, 'road'],
         [350, 500, 0, 'road'],
         [350, 450, 0, 'road'],
         [325, 425, 90, 'road'],
@@ -17,7 +18,9 @@ function building_road() {
         [350, 200, 0, 'road'],
         [350, 150, 0, 'road'],
         [350, 100, 0, 'road'],
+        [350, 50, 0, 'road'],
 
+        [450, 50, 0, 'road'],
         [450, 100, 0, 'road'],
         [450, 150, 0, 'road'],
         [475, 175, 90, 'road'],
@@ -30,6 +33,7 @@ function building_road() {
         [475, 425, 90, 'road'],
         [450, 450, 0, 'road'],
         [450, 500, 0, 'road'],
+        [450, 550, 0, 'road'],
 
         [500, 500, 0, 'road'],
         [500, 450, 0, 'road'],
@@ -90,7 +94,7 @@ function building_road() {
 function creating_autocar(x, y) {
     auto_car = game.add.sprite(x, y, 'auto_car');
     auto_car.anchor.set(0.5);
-    auto_car.scale.set(0.12);
+    auto_car.scale.set(0.14);
 
     game.physics.p2.enable(auto_car, false);
     auto_car.body.setCollisionGroup(carCollisionGroup);

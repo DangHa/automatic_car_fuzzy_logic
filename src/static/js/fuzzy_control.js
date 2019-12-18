@@ -51,8 +51,8 @@ function controlling_deviation() {
     }
     // --------------------------------------------------------------
 
-    deviation = denta_x/(denta_x+denta_y);
 
+    deviation = denta_x/(denta_x+denta_y);
     // console.log("Deviation: " + deviation);
     
     var final_fuzzy = choosing_deviation_steering_rules(deviation);
