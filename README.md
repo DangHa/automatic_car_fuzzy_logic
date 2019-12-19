@@ -2,7 +2,7 @@
 
 ## Description
 
-![automatic_car](https://gitlab.com/ha_algorithm/automatic_car/uploads/4e080a2c52f5e735b192c762cf7f529d/automatic_car.png)
+![ezgif.com-crop](https://gitlab.com/ha_algorithm/automatic_car/uploads/1375a7509761b28d4e4815596ab44df7/ezgif.com-crop.gif)
 
 
     * Finding way by dijkstra algorithm
