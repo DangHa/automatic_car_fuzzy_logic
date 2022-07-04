@@ -5,22 +5,22 @@
 
 - <strong> The objects on the map <strong>
 
-![describing objects](https://gitlab.com/ha_algorithm/automatic_car/uploads/b65ac2867e56c648b7d02b309a358197/image.png)
+![describing objects](https://user-images.githubusercontent.com/20589233/177187319-5f6eea0c-6e05-463f-8fb8-757935bb683b.png)
 
 - <strong> Some demos which simulating car run in some cases <strong>
 
   * *Running automatically*
-![Run automatically](https://gitlab.com/ha_algorithm/automatic_car/uploads/1375a7509761b28d4e4815596ab44df7/ezgif.com-crop.gif)
+![Run automatically](https://user-images.githubusercontent.com/20589233/177187516-0da41605-f1d0-432f-9499-0a4e976bcc09.gif)
 
   * *Avoiding obstacles*
-![Avoiding obstacles](https://gitlab.com/ha_algorithm/automatic_car/uploads/e741dbf865deca3f6fccb61824551262/ezgif.com-crop__1_.gif)
+![Avoiding obstacles](https://user-images.githubusercontent.com/20589233/177187536-c9431fdf-d705-4a81-8fcd-c07cd86aeb64.gif)
 
 ## Slight description of how it works
     - Finding way by dijkstra algorithm
     - Automatically driving by using fuzzy logic
 
 * *Some fuzzy logics and fuzzy sets (just deviation-steering rules)*
-![Fuzzy logic](https://gitlab.com/ha_algorithm/automatic_car/uploads/a86fa1e24c90e6ffc9a097aefca52c7d/image.png)
+![Fuzzy logic](https://user-images.githubusercontent.com/20589233/177187356-072117ed-7596-4a88-b654-fdb28456d915.png)
 
 ## Tools used
     
